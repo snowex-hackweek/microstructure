@@ -62,3 +62,7 @@ Building from what you learn at this hackweek, what new approaches would you lik
 
 Optional: links to manuscripts or technical documents for more in-depth analysis.
 
+
+### Contributors 
+
+* Micah Johnson 
