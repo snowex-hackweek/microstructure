@@ -11,7 +11,7 @@ Notebooks that are considered delivered results for the project should go in her
 
 ## Project Summary
 
-The goal is to evaluate the SMP to SSA conversion coefficients presented by [Colonne et al 2020](https://tc.copernicus.org/articles/14/1829/2020/)
+The goal is to evaluate the SMP to SSA conversion coefficients presented by [Colonne et al. 2020](https://tc.copernicus.org/articles/14/1829/2020/)
 on the Grand Mesa Dataset.
 
 ### Project Title
@@ -38,11 +38,15 @@ List one specific application of this work.
 ### Sample data
 
 #### SMP data (Full) 
-    * https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/
-    
+
+        ```bash
+        cd scripts/
+        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_ext PNT
+        ```
+
 ### Specific Questions
 
-* Are the coeficients provided by Neige Colonne valid at Grand Mesa?
+* Are the coefficients provided derived by Neige Colonne valid at Grand Mesa?
 * If not can we calibrate our own?
 
 ### Existing methods
@@ -51,8 +55,9 @@ How would you or others traditionally try to address this problem?
 
 ### Proposed methods/tools
 
-Building from what you learn at this hackweek, what new approaches would you like to try to implement?
+* https://github.com/mjsandells/snowmicropyn - contains the implemented Colonne Coefficients.
 
 ### Background reading
 
-Optional: links to manuscripts or technical documents for more in-depth analysis.
+* [King et al. 2020](https://doi.org/10.5194/tc-14-4323-2020)
+* [Colonne et al. 2020](https://tc.copernicus.org/articles/14/1829/2020/)
