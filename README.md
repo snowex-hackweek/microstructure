@@ -34,20 +34,19 @@ Accurate characterisation of snow microscture is critical for for understanding 
 ### Sample data
 
 #### SMP data (Full) 
-    * SNEX20_SMP_S19M1285_1S17_20200208.CSV, SNEX20_SMP_S19M1284_1S17_20200208.CSV, SNEX20_SMP_S19M1287_1S17_20200208.CSV, SNEX20_SMP_S19M1289_1S17_20200208.CSV
-    * SNEX20_SMP_S19M1174_2N13_20200206.CSV, SNEX20_SMP_S19M1175_2N13_20200206.CSV, SNEX20_SMP_S19M1172_2N13_20200206.CSV, SNEX20_SMP_S19M1173_2N13_20200206.CSV
-    * SNEX20_SMP_S19M1261_2S16_20200208.CSV, SNEX20_SMP_S19M1262_2S16_20200208.CSV, SNEX20_SMP_S19M1268_2S16_20200208.CSV, SNEX20_SMP_S19M1269_2S16_20200208.CSV, SNEX20_SMP_S19M1260_2S16_20200208.CSV
-    * SNEX20_SMP_S19M1256_2S7_20200208.CSV, SNEX20_SMP_S19M1255_2S7_20200208.CSV, SNEX20_SMP_S19M1243_2S7_20200208.CSV, SNEX20_SMP_S19M1257_2S7_20200208.CSV, SNEX20_SMP_S19M1244_2S7_20200208.CSV, SNEX20_SMP_S19M1240_2S7_20200208.CSV
-    * SNEX20_SMP_S19M1145_9C16_20200205.CSV, SNEX20_SMP_S19M1152_9C16_20200205.CSV, SNEX20_SMP_S19M1134_9C16_20200205.CSV, SNEX20_SMP_S19M1150_9C16_20200205.CSV, SNEX20_SMP_S19M1151_9C16_20200205.CSV
+
+This downloads the profiles found with in the date and site id constraints shown in the which_pit.ipynb notebook.
+
+*Warning* You must have the `.netrc` file as described by the NSIDC here on [programmatic access](https://nsidc.org/support/how/v0-programmatic-data-access-guide)
     
-    ```bash
-        cd scripts/
-        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 1S17_20200208 --file_ext PNT
-        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2N13_20200206 --file_ext PNT
-        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2S16_20200208 --file_ext PNT
-        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2S7_20200208 --file_ext PNT
-        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 9C16_20200205 --file_ext PNT
-    ```
+``` bash
+    cd scripts/
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 1S17_20200208 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2N13_20200206 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2S16_20200208 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2S7_20200208 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 9C16_20200205 --file_ext PNT
+```
 
 ### Specific Questions
 
