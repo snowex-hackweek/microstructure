@@ -35,10 +35,18 @@ Accurate characterisation of snow microscture is critical for for understanding 
 
 #### SMP data (Full) 
 
-        ```bash
-        cd scripts/
-        python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_ext PNT
-        ```
+This downloads the profiles found with in the date and site id constraints shown in the which_pit.ipynb notebook.
+
+*Warning* You must have the `.netrc` file as described by the NSIDC here on [programmatic access](https://nsidc.org/support/how/v0-programmatic-data-access-guide)
+    
+``` bash
+    cd scripts/
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 1S17_20200208 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2N13_20200206 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2S16_20200208 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 2S7_20200208 --file_ext PNT
+    python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 9C16_20200205 --file_ext PNT
+```
 
 ### Specific Questions
 
