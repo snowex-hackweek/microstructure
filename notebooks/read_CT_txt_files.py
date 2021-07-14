@@ -20,7 +20,7 @@ def read_CT_txt_files(DataDir):
     
     for entry in filenames:
 
-        fname=DataDir + entry.name        
+        fname=DataDir + entry.name            
         
         #parse depth range
         split_name=fname.split('_')
