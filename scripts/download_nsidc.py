@@ -86,7 +86,7 @@ def main():
     folders = get_nsidc_url_folders(r)
     url_list = []
 
-    for f in folders[0:1]:
+    for f in folders:
         url = f'{args.url}/{f}'
         r = requests.get(url)
         files = get_nsidc_url_files(r, search_str=args.file_pattern, file_ext=args.file_extension)
