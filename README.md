@@ -11,12 +11,8 @@ Notebooks that are considered delivered results for the project should go in her
 
 ## Project Summary
 
-The goal is to evaluate the SMP to SSA conversion coefficients presented by [Colonne et al. 2020](https://tc.copernicus.org/articles/14/1829/2020/)
+The goal is to evaluate the SMP to SSA conversion coefficients presented by [Calonne et al. 2020](https://tc.copernicus.org/articles/14/1829/2020/)
 on the Grand Mesa Dataset.
-
-### Project Title
-
-Brief title describing the proposed work.
 
 ### Collaborators on this project
 
@@ -33,7 +29,7 @@ What problem are you going to explore? Provide a few sentences. If this is a tec
 
 ### Application Example
 
-List one specific application of this work.
+Accurate characterisation of snow microscture is critical for for understanding volume scattering from airborne and spaceborne radars and radiometers.
 
 ### Sample data
 
@@ -46,12 +42,10 @@ List one specific application of this work.
 
 ### Specific Questions
 
-* Are the coefficients provided derived by Neige Colonne valid at Grand Mesa?
+* Are the coefficients provided derived by Neige Colonne and Martin Proksh valid at Grand Mesa? 
+* Which is better?
 * If not can we calibrate our own?
 
-### Existing methods
-
-How would you or others traditionally try to address this problem?
 
 ### Proposed methods/tools
 
