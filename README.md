@@ -60,4 +60,4 @@ How would you or others traditionally try to address this problem?
 ### Background reading
 
 * [King et al. 2020](https://doi.org/10.5194/tc-14-4323-2020)
-* [Colonne et al. 2020](https://tc.copernicus.org/articles/14/1829/2020/)
+* [Calonne et al. 2020](https://tc.copernicus.org/articles/14/1829/2020/)
