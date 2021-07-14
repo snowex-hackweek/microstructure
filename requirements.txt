@@ -1,0 +1,3 @@
+fiona>=1.8.0
+git+git://github.com/SnowEx/snowexsql/
+git+git://github.com/mjsandells/snowmicropyn
