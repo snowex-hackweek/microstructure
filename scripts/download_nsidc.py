@@ -4,8 +4,12 @@ This script downloads the NSIDC data for the full SMP profiles to be used for th
 """
 
 import requests
-from os.path import join, basename
+from os.path import join, basename, isdir, isfile
+from os import mkdir
 import argparse
+import time
+import sys
+
 
 def get_nsidc_url_folders(response):
     """
@@ -22,6 +26,7 @@ def get_nsidc_url_folders(response):
         if potential_folder.count('.') == 2:
             folders.append(potential_folder)
     return folders
+
 
 def get_nsidc_url_files(response, search_str=None, file_ext=[]):
     """
@@ -42,7 +47,7 @@ def get_nsidc_url_files(response, search_str=None, file_ext=[]):
     if search_str is not None:
         files = [f for f in files if search_str in f]
 
-    # Apply any filter file extentsions
+    # Apply any filter file extensions
     if file_ext:
         files = [f for f in files if f.split('.')[-1] in file_ext]
     # Apply filters
@@ -59,40 +64,70 @@ def main():
 
     args = parser.parse_args()
 
-    print("HACK WEEK NSIDC DOWNLOADER SCRIPT")
-    print("=================================")
+    print("\nHACK WEEK NSIDC DOWNLOADER SCRIPT")
+    print("==================================\n")
 
-    # Make the data directory if it is missing
-    if not isdir(args.output_folder):
-        mkdir(args.output_folder)
+    # Avoid double / when joining files and such
+    if args.url.endswith('/'):
+        args.url = args.url[0:-1]
 
     print(f'Querying {args.url} for downloadable data')
     r = requests.get(args.url)
+
+    if r.status_code == 404:
+        print('URL does not exist!')
+        sys.exit()
+
+    elif r.status_code == 403:
+        print('Permission denied to URL!!')
+        sys.exit()
 
     # See what folders are available
     folders = get_nsidc_url_folders(r)
     url_list = []
 
     for f in folders[0:1]:
-        url = args.url + f
+        url = f'{args.url}/{f}'
         r = requests.get(url)
         files = get_nsidc_url_files(r, search_str=args.file_pattern, file_ext=args.file_extension)
 
         # Build all the URLS were going to download
         url_list += [f'{args.url}/{f}/{file}' for file in files]
+    url_list = list(set(url_list))
+    N_url = len(url_list)
+    print(f'Found {N_url} files to download...')
 
-    print(f'Found {len(url_list)} to download...')
+    # Download folder
+    if N_url > 0:
+        print(f'Saving Data to {args.output_folder}')
 
-    # Download
-    print(f'Saving Data to {args.output_folder}')
+        # Make the data directory if it is missing
+        if not isdir(args.output_folder):
+            mkdir(args.output_folder)
 
-    for url in url_list:
-        print(f'Downloading {url}...')
-        r = requests.get(url)
+    # Main download loop
+    for i, url in enumerate(url_list):
+        print(f'Downloading {url} ({i+1}/{N_url})')
+
+        # Form a filename to save data locally
         out = join(args.output_folder, basename(url))
 
-        with open(out,'wb') as fp:
-            fp.write(r.content)
+        # CHeck whether we should download it
+        if isfile(out):
+            print('File already exists locally...skipping download.')
+        else:
+
+            # Downlaod the contents of the file
+            r = requests.get(url)
+
+            with open(out, 'wb') as fp:
+                fp.write(r.content)
+
 
 if __name__ == '__main__':
+
+    # Keep track of time
+    start = time.time()
     main()
+    end = time.time()
+    print('Download Complete! Elasped time {:0.0f} minutes.\n'.format((end - start)// 60))
