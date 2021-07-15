@@ -1,6 +1,6 @@
 # function to define SMP height, average SMP data to specified intervals, and support (future)
 #    work to rescale or shift profile if necessary
-#    by Mike Durand June 2021
+#    by Mike Durand July 2021
 #
 #    ssa_smp is a pandas dataframe with data at e.g. ~1/2 mm resolution data from SMP. length ~2000 
 #    height_min and height_max are the CT min and max heights for the CT compute samples
