@@ -48,6 +48,9 @@ This downloads the profiles found with in the date and site id constraints shown
     python download_nsidc.py https://n5eil01u.ecs.nsidc.org/SNOWEX/SNEX20_SMP.001/ --file_pattern 9C16_20200205 --file_ext PNT
 ```
 
+* https://nsidc.org/sites/nsidc.org/files/technical-references/SNEX20_SMP_FieldNotes.xlsx
+
+
 ### Specific Questions
 
 * Are the coefficients provided derived by Neige Colonne and Martin Proksh valid at Grand Mesa? 
