@@ -56,43 +56,51 @@ def get_nsidc_url_files(response, search_str=None, file_ext=[]):
 
 def main():
     parser = argparse.ArgumentParser(description='Script to download NSIDC data')
-    parser.add_argument('url', metavar='URL',
+    parser.add_argument('--url', metavar='URL',
                         help='URL to the base data navigator on nsidc')
     parser.add_argument('--file_pattern', dest='file_pattern', help='Provide a substring to search filenames for, e.g. 1N13')
     parser.add_argument('--file_ext', dest='file_extension', help='Filter downloads by file exentions')
     parser.add_argument('--output_folder', dest='output_folder', help='Location to save the data locally', default='./data')
+    parser.add_argument('--just_give_it_to_me', dest='just_give_it_to_me', help='the URLS listed in the a text file',
+                        )
 
     args = parser.parse_args()
 
     print("\nHACK WEEK NSIDC DOWNLOADER SCRIPT")
     print("==================================\n")
+    # Allow users to pass a list of urls
+    if args.just_give_it_to_me is not None:
+        with open(args.just_give_it_to_me, 'r') as fp:
+            url_list = [url.strip() for url in fp.readlines()]
+    else:
+        # Avoid double / when joining files and such
+        if args.url.endswith('/'):
+            args.url = args.url[0:-1]
 
-    # Avoid double / when joining files and such
-    if args.url.endswith('/'):
-        args.url = args.url[0:-1]
+        url_list = []
 
-    print(f'Querying {args.url} for downloadable data')
-    r = requests.get(args.url)
+        print(f'Querying {args.url} for downloadable data')
+        r = requests.get(args.url)
 
-    if r.status_code == 404:
-        print('URL does not exist!')
-        sys.exit()
+        if r.status_code == 404:
+            print('URL does not exist!')
+            sys.exit()
 
-    elif r.status_code == 403:
-        print('Permission denied to URL!!')
-        sys.exit()
+        elif r.status_code == 403:
+            print('Permission denied to URL!!')
+            sys.exit()
 
-    # See what folders are available
-    folders = get_nsidc_url_folders(r)
-    url_list = []
+        # See what folders are available
+        folders = get_nsidc_url_folders(r)
 
-    for f in folders:
-        url = f'{args.url}/{f}'
-        r = requests.get(url)
-        files = get_nsidc_url_files(r, search_str=args.file_pattern, file_ext=args.file_extension)
+        for f in folders:
+            url = f'{args.url}/{f}'
+            r = requests.get(url)
+            files = get_nsidc_url_files(r, search_str=args.file_pattern, file_ext=args.file_extension)
 
-        # Build all the URLS were going to download
-        url_list += [f'{args.url}/{f}/{file}' for file in files]
+            # Build all the URLS were going to download
+            url_list += [f'{args.url}/{f}/{file}' for file in files]
+
     url_list = list(set(url_list))
     N_url = len(url_list)
     print(f'Found {N_url} files to download...')
@@ -117,11 +125,16 @@ def main():
             print('File already exists locally...skipping download.')
         else:
 
-            # Downlaod the contents of the file
+            # Download the contents of the file
             r = requests.get(url)
+            if r.status_code == 404:
+                print(f'{url} does not exist')
 
-            with open(out, 'wb') as fp:
-                fp.write(r.content)
+            elif r.status_code == 403:
+                print(f'{url} is forbidden')
+            else:
+                with open(out, 'wb') as fp:
+                    fp.write(r.content)
 
 
 if __name__ == '__main__':
