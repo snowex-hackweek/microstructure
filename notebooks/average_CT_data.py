@@ -1,23 +1,17 @@
-# function to define SMP height, average SMP data to specified intervals, and support (future)
-#    work to rescale or shift profile if necessary
+# function to define average CT data to specified intervals
 #    by Mike Durand July 2021
 #
-#    ssa_smp is a pandas dataframe with data at e.g. ~1/2 mm resolution data from SMP. length ~2000 
+#    ssa_CT is an array of 
 #    height_min and height_max are the CT min and max heights for the CT compute samples
 #    ssa_height is height above soil-snow interface for SSA at full ~1/2 mm resolution
 #    SSA_SMP_avg is SSA from SMP averaged to the CT samples
 
 import numpy as np
+from scipy import interpolate
 
-def average_CT_data(ssa_smp,height_min,height_max):
+def average_CT_data(height_CT,ssa_CT,height_IS):
 
-    ssa_height=(max(height_max*10)-ssa_smp.distance)/10
-
-    nCT=len(height_min)
-    SSA_SMP_avg=np.empty(nCT)
-
-    for i in range(nCT):
-        idx=np.where( (ssa_height > height_min[i]) & (ssa_height < height_max[i]))
-        SSA_SMP_avg[i]=ssa_smp.iloc[idx].ssa.mean()
+    f = interpolate.interp1d(height_CT, ssa_CT,bounds_error=False,fill_value='nan')
+    ssa_CT_i = f(height_IS) 
     
-    return ssa_height, SSA_SMP_avg
+    return ssa_CT_i
