@@ -1,6 +1,7 @@
 """
 
 """
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -149,3 +150,75 @@ def ssa_from_acf_slope(volume_fraction, acf_slope_at_origin):
     ##################################################
     rho_ice = 917
     return 4 * acf_slope_at_origin / volume_fraction / rho_ice
+
+def deq_mm(ssa):
+    """
+    Computes the diameter of equivalent spheres in mm
+    """
+    return 1e3 * 6 / (917 * np.asarray(ssa))
+
+
+def subsection_ssa(data_dir, folder, pixel_size):
+    """
+    Returns SSA and Deq for all cropped .png images within a sample folder
+    
+    """
+    # Get path to folder
+    path_to_folder = os.path.join(data_dir, folder)
+
+    # Get all files within subsample section
+    # Sort in reverse: from top of sample to bottom
+    files = sorted(os.listdir(path_to_folder), reverse=True)
+    
+    # Get height at top of sample and convert to m
+    sample_top_height = float(folder.split('-')[0] )* 1e-2
+    print (sample_top_height, folder)
+    
+    # Make empty lists and convert to pandas at the end: cheaper computationally according to  
+    # https://stackoverflow.com/questions/13784192/creating-an-empty-pandas-dataframe-then-filling-it
+    ssax = [] # ssa in x-direction
+    ssay = [] # ssa in y-direction
+    fvol = [] # fractional volume
+    sid = [] # subsample id
+    est_height = [] # estimated height
+    
+    for i,f in enumerate(files):
+        # Get subsample number
+        sid.append(folder.split('-')[0] + '_' + f.split('.png')[0].split('_')[-1])
+        est_height.append(sample_top_height - i*20e-6) # Subsamples approx 20 microns apart
+        
+        # Start looking in the file: make path
+        fpath = os.path.join(path_to_folder, f)
+        
+        
+        # Start calculations - indicator function is binarized ice (1) vs air (0)
+        indicator_function = cropped_indicator(fpath)
+        # get the volume fraction
+        volume_fraction = ice_volume_fraction(indicator_function)
+        fvol.append(volume_fraction)
+        # get the 2d correlation function
+        acf2d = ACF2D(indicator_function)
+
+
+        # get the 1d correlation function along an axis
+        acf1d_x = ACF1D(acf2d, 1)
+        acf1d_y = ACF1D(acf2d, 0)
+
+        # get the corresponding lags
+        r_x = pixel_size * np.arange(len(acf1d_x))
+        r_y = pixel_size * np.arange(len(acf1d_y))
+
+
+        # get the fit versions
+        r_max = 100 * pixel_size
+        acf1d_fit_exp_x, opt_param_exp_x = acf1d_fit_exp(r_x, acf1d_x, r_max)
+        acf1d_fit_exp_y, opt_param_exp_y = acf1d_fit_exp(r_y, acf1d_y, r_max)
+
+        ssax.append(ssa_from_acf_slope(volume_fraction, volume_fraction*(1-volume_fraction)/opt_param_exp_x[1]))
+        ssay.append(ssa_from_acf_slope(volume_fraction, volume_fraction*(1-volume_fraction)/opt_param_exp_y[1]))
+  
+
+    # Make dataframe, include diameter of equivalent spheres
+    return pd.DataFrame({'subsample_id':sid, 'ssa_x':ssax, 'ssa_y':ssay, 'fractional_volume':fvol,
+                        'estimated_height':est_height, 'Deq_x': deq_mm(ssax), 'Deq_y': deq_mm(ssay)})
+    
