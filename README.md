@@ -29,7 +29,7 @@ What problem are you going to explore? Provide a few sentences. If this is a tec
 
 ### Application Example
 
-Accurate characterisation of snow microscture is critical for for understanding volume scattering from airborne and spaceborne radars and radiometers.
+Accurate characterisation of snow microstructure is critical for understanding volume scattering from airborne and spaceborne radars and radiometers.
 
 ### Sample data
 
@@ -37,8 +37,8 @@ Accurate characterisation of snow microscture is critical for for understanding 
 
 This downloads the profiles found with in the date and site id constraints shown in the which_pit.ipynb notebook.
 
-*Warning* You must have the `.netrc` file as described by the NSIDC here on [programmatic access](https://nsidc.org/support/how/v0-programmatic-data-access-guide)
-
+*Warning* You must have the `.netrc` file as described by the NSIDC here on
+[programmatic access](https://nsidc.org/support/how/v0-programmatic-data-access-guide)
 
 To download all the SMP profiles taken by the pit for our locations just use
 ``` bash
@@ -54,13 +54,13 @@ Otherwise here is an example to get the data from nsidc using our script using p
 ```
 
 * https://nsidc.org/sites/nsidc.org/files/technical-references/SNEX20_SMP_FieldNotes.xlsx
-
+* Micro-ct came from Michael Durand via CREL
 
 ### Specific Questions
 
 * Are the coefficients provided derived by Neige Colonne and Martin Proksh valid at Grand Mesa? 
-* Which is better?
-* If not can we calibrate our own?
+* Which performs better there?
+* If the performance is poor, can recalibrate our own?
 
 
 ### Proposed methods/tools
